@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ♡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wine: #722F37;
+            --deep-wine: #4A1C20;
+            --terracotta: #C4766C;
+            --blush: #E8C4B8;
+            --cream: #FDF6F0;
+            --sage: #87A878;
+            --ink: #2D2A26;
+            --gold: #C9A962;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: var(--cream);
+            color: var(--ink);
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23722F37' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") 12 12, auto;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ===== INTRO SECTION ===== */
+        .intro {
+            min-height: 100vh;
+            background-color: var(--wine);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 3rem;
+        }
+
+        .intro::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, var(--terracotta) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, var(--deep-wine) 0%, transparent 40%);
+            opacity: 0.3;
+            animation: auroraMove 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes auroraMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(5%, 5%) rotate(10deg); }
+        }
+
+        .intro-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .intro-date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 2rem;
+            border: 1px solid var(--blush);
+            border-radius: 50px;
+        }
+
+        .intro-date-badge span {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--blush);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .intro-date-badge .heart {
+            color: var(--terracotta);
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .intro-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 7rem);
+            color: var(--cream);
+            line-height: 1.05;
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro-title em {
+            font-style: italic;
+            color: var(--blush);
+        }
+
+        .intro-subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: var(--terracotta);
+        }
+
+        .intro-photo-wrapper {
+            position: relative;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .intro-photo-frame {
+            width: 420px;
+            aspect-ratio: 3/4;
+            background: var(--blush);
+            border: 4px solid var(--cream);
+            transform: rotate(-3deg);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .intro-photo-frame:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .intro-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .intro-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--wine);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .intro-photo-frame:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .intro-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .intro-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--wine);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--wine);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .scroll-hint svg {
+            margin-top: 0.5rem;
+            width: 24px;
+            animation: arrowBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        /* ===== TIMELINE SECTION ===== */
+        .timeline-section {
+            padding: 8rem 3rem;
+            position: relative;
+            background: linear-gradient(180deg, var(--cream) 0%, #FFF9F5 100%);
+        }
+
+        .section-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 6rem;
+        }
+
+        .section-header::before,
+        .section-header::after {
+            content: '';
+            height: 1px;
+            background: var(--terracotta);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--wine);
+            text-align: center;
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline-path {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(
+                to bottom,
+                var(--terracotta) 0,
+                var(--terracotta) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) {
+            direction: rtl;
+        }
+
+        .timeline-item:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .timeline-date {
+            font-family: 'Caveat', cursive;
+            font-size: 2.5rem;
+            color: var(--wine);
+            text-align: right;
+            padding-top: 1rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) .timeline-date {
+            text-align: left;
+        }
+
+        .timeline-date::after {
+            content: '';
+            position: absolute;
+            top: 1.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--terracotta);
+            border-radius: 50%;
+            border: 3px solid var(--cream);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-date::after {
+            right: -2.5rem;
+        }
+
+        .timeline-item:nth-child(even) .timeline-date::after {
+            left: -2.5rem;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 2rem;
+            border: 1px solid var(--blush);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px) rotate(-1deg);
+            box-shadow: 10px 10px 0 var(--blush);
+        }
+
+        .timeline-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--wine);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-content p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--ink);
+        }
+
+        .timeline-photo {
+            width: 100%;
+            background: var(--blush);
+            margin-top: 1rem;
+        }
+
+        .timeline-photo img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .timeline-edit-hint {
+            font-family: 'Caveat', cursive;
+            font-size: 1rem;
+            color: var(--terracotta);
+            font-style: italic;
+        }
+
+        /* ===== LOVE NOTES SECTION ===== */
+        .love-notes-section {
+            padding: 8rem 3rem;
+            background-color: var(--deep-wine);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-notes-section .section-title {
+            color: var(--cream);
+        }
+
+        .love-notes-section .section-header::before,
+        .love-notes-section .section-header::after {
+            background: var(--terracotta);
+            opacity: 0.5;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(3, auto);
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .love-note {
+            background: var(--cream);
+            padding: 2rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .love-note:nth-child(1) { grid-column: 1 / 5; transform: rotate(-2deg); }
+        .love-note:nth-child(2) { grid-column: 5 / 8; transform: rotate(1deg); margin-top: 3rem; }
+        .love-note:nth-child(3) { grid-column: 8 / 13; transform: rotate(-1deg); }
+        .love-note:nth-child(4) { grid-column: 2 / 6; transform: rotate(2deg); }
+        .love-note:nth-child(5) { grid-column: 6 / 10; transform: rotate(-3deg); margin-top: -2rem; }
+        .love-note:nth-child(6) { grid-column: 10 / 13; transform: rotate(1deg); }
+
+        .love-note::before {
+            content: 'click me';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--terracotta);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .love-note.revealed::before {
+            opacity: 0;
+        }
+
+        .love-note-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--blush);
+            position: absolute;
+            top: 0.5rem;
+            left: 1rem;
+            line-height: 1;
+            z-index: 1;
+        }
+
+        .love-note-content {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            color: var(--wine);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease 0.1s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .love-note.revealed .love-note-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .love-note:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== REASONS SECTION ===== */
+        .reasons-section {
+            padding: 8rem 3rem;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .reasons-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
+        }
+
+        .reasons-sticky {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .reasons-sticky h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--wine);
+            line-height: 1.2;
+        }
+
+        .reasons-sticky p {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--terracotta);
+            margin-top: 1rem;
+            transform: rotate(-3deg);
+        }
+
+        .reasons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .reason-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            background: white;
+            border-left: 4px solid var(--terracotta);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .reason-item:hover {
+            background: var(--blush);
+            transform: translateX(10px);
+        }
+
+        .reason-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--wine);
+            line-height: 1;
+        }
+
+        .reason-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            padding-top: 0.5rem;
+        }
+
+        .reason-text strong {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--wine);
+        }
+
+        /* ===== PLAYLIST SECTION ===== */
+        .playlist-section {
+            padding: 8rem 3rem;
+            background: var(--ink);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .playlist-section::before {
+            content: '♫';
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 500px;
+            color: rgba(255, 255, 255, 0.02);
+            font-family: serif;
+        }
+
+        .playlist-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .playlist-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+
+        .playlist-subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--terracotta);
+            margin-bottom: 3rem;
+        }
+
+        .vinyl-record {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #1a1a1a 30%, #0d0d0d 31%, #1a1a1a 50%, #0d0d0d 51%, #1a1a1a 70%, #0d0d0d 71%);
+            border-radius: 50%;
+            margin: 0 auto 3rem;
+            position: relative;
+            animation: spin 8s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .vinyl-record.playing {
+            animation-play-state: running;
+        }
+
+        .vinyl-record::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: var(--wine);
+            border-radius: 50%;
+            border: 4px solid var(--gold);
+        }
+
+        .vinyl-record::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: var(--ink);
+            border-radius: 50%;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .song-info {
+            color: var(--cream);
+        }
+
+        .song-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .song-artist {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: var(--blush);
+        }
+
+        .play-button {
+            margin-top: 2rem;
+            background: var(--wine);
+            border: none;
+            color: var(--cream);
+            padding: 1rem 3rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-button:hover {
+            background: var(--terracotta);
+            transform: scale(1.05);
+        }
+
+        .spotify-embed {
+            margin-top: 3rem;
+            opacity: 0.9;
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery-section {
+            padding: 8rem 3rem;
+            background: linear-gradient(135deg, var(--blush) 0%, var(--cream) 100%);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(4, 150px);
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            background: white;
+            border: 3px solid white;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:nth-child(1) { grid-column: 1 / 5; grid-row: 1 / 3; }
+        .gallery-item:nth-child(2) { grid-column: 5 / 8; grid-row: 1 / 2; }
+        .gallery-item:nth-child(3) { grid-column: 8 / 13; grid-row: 1 / 3; }
+        .gallery-item:nth-child(4) { grid-column: 5 / 8; grid-row: 2 / 4; }
+        .gallery-item:nth-child(5) { grid-column: 1 / 5; grid-row: 3 / 5; }
+        .gallery-item:nth-child(6) { grid-column: 8 / 10; grid-row: 3 / 5; }
+        .gallery-item:nth-child(7) { grid-column: 10 / 13; grid-row: 3 / 5; }
+        .gallery-item:nth-child(8) { grid-column: 5 / 8; grid-row: 4 / 5; }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--blush);
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--wine);
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* ===== VALENTINE ASK SECTION ===== */
+        .valentine-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--wine);
+            position: relative;
+            overflow: hidden;
+            padding: 4rem;
+        }
+
+        .valentine-section::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--terracotta) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.1;
+            animation: patternMove 30s linear infinite;
+        }
+
+        @keyframes patternMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        .valentine-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .valentine-question {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--cream);
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        .valentine-question span {
+            display: block;
+            font-family: 'Caveat', cursive;
+            font-size: 0.4em;
+            color: var(--blush);
+            margin-top: 0.5rem;
+        }
+
+        .valentine-button {
+            background: var(--cream);
+            border: none;
+            padding: 1.5rem 4rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--wine);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s ease;
+            margin-bottom: 3rem;
+            min-width: 350px;
+        }
+
+        .valentine-button::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 2px dashed var(--blush);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .valentine-button:hover::before {
+            inset: -8px;
+            opacity: 1;
+        }
+
+        .valentine-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .valentine-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .valentine-button {
+            margin-bottom: 0;
+        }
+
+        .no-button {
+            background: var(--cream);
+            border: none;
+            padding: 1.5rem 4rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--wine);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.4s ease;
+            min-width: 350px;
+        }
+
+        .no-button::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border: 2px dashed var(--blush);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .no-button:hover::before {
+            inset: -8px;
+            opacity: 1;
+        }
+
+        .no-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .no-tooltip {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--deep-wine);
+            color: var(--cream);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .no-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .no-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: var(--deep-wine);
+        }
+
+        .valentine-reveal-wrapper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .bunny-side {
+            width: 180px;
+            flex-shrink: 0;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 120px;
+        }
+
+        .bunny-side.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .bunny-side.left {
+            animation: bunnyFloatLeft 3s ease-in-out infinite;
+        }
+
+        .bunny-side.right {
+            animation: bunnyFloatRight 3s ease-in-out infinite;
+        }
+
+        .bunny-side img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes bunnyFloatLeft {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        @keyframes bunnyFloatRight {
+            0%, 100% { transform: translateY(-5px) rotate(3deg); }
+            50% { transform: translateY(5px) rotate(-3deg); }
+        }
+
+        .valentine-details {
+            display: none;
+            flex: 1;
+            max-width: 500px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .valentine-details.show {
+            display: block;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--gold);
+        }
+
+        .detail-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-card p {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: var(--cream);
+        }
+
+        /* ===== FLOATING ELEMENTS ===== */
+        .floating-heart {
+            position: fixed;
+            font-size: 2rem;
+            color: var(--terracotta);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatUp 4s ease-in forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 4rem 3rem;
+            background: var(--ink);
+            text-align: center;
+        }
+
+        .footer-message {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+
+        .footer-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--terracotta);
+        }
+
+        .footer-hearts {
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            letter-spacing: 0.5rem;
+            color: var(--wine);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .intro {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-left {
+                min-height: 60vh;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .timeline-item:nth-child(even) {
+                direction: ltr;
+            }
+
+            .timeline-path {
+                left: 20px;
+            }
+
+            .timeline-date {
+                text-align: left !important;
+                padding-left: 3rem;
+            }
+
+            .timeline-date::after {
+                left: 0 !important;
+                right: auto !important;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .love-note {
+                grid-column: 1 / -1 !important;
+            }
+
+            .reasons-container {
+                grid-template-columns: 1fr;
+            }
+
+            .reasons-sticky {
+                position: relative;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+            }
+
+            .gallery-item {
+                grid-column: auto !important;
+                grid-row: auto !important;
+                aspect-ratio: 1;
+            }
+
+            .valentine-reveal-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .bunny-side {
+                width: 130px;
+                margin-top: 80px;
+            }
+
+            .bunny-side.left,
+            .bunny-side.right {
+                position: relative;
+            }
+
+            .valentine-reveal-wrapper .bunny-side.left {
+                order: 1;
+                align-self: flex-start;
+            }
+
+            .valentine-reveal-wrapper .valentine-details {
+                order: 2;
+            }
+
+            .valentine-reveal-wrapper .bunny-side.right {
+                order: 3;
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bunny-side {
+                width: 110px;
+                margin-top: 60px;
+            }
+        }
+
+        /* ===== HAND-DRAWN BORDER EFFECT ===== */
+        .hand-drawn-box {
+            position: relative;
+        }
+
+        .hand-drawn-box::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 2px solid var(--wine);
+            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+        }
+
+        /* ===== TAPE EFFECT ===== */
+        .tape {
+            position: absolute;
+            width: 60px;
+            height: 20px;
+            background: rgba(255, 235, 205, 0.7);
+            transform: rotate(-45deg);
+        }
+
+        .tape-top {
+            top: -10px;
+            left: 20px;
+        }
+
+        .tape-bottom {
+            bottom: -10px;
+            right: 20px;
+            transform: rotate(45deg);
+        }
+
+        /* ===== SCRIBBLE UNDERLINE ===== */
+        .scribble-underline {
+            position: relative;
+        }
+
+        .scribble-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='8'%3E%3Cpath d='M0 4 Q 10 0, 20 4 T 40 4 T 60 4 T 80 4 T 100 4' stroke='%23C4766C' stroke-width='2' fill='none'/%3E%3C/svg%3E") repeat-x;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== INTRO ===== -->
+    <section class="intro">
+        <div class="intro-content">
+            <div class="intro-date-badge">
+                <span>February 14, 2026</span>
+                <span class="heart">♥</span>
+                <span>Since Oct 2025</span>
+            </div>
+            
+            <h1 class="intro-title">A Valentine Letter,<br><em>In Pixels</em></h1>
+            <p class="intro-subtitle">scroll to unwrap ♡</p>
+            
+            <div class="intro-photo-wrapper">
+                <div class="intro-photo-frame">
+                    <img src="photo1.jpg" alt="Us">
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            scroll down
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ===== TIMELINE ===== -->
+    <section class="timeline-section">
+        <div class="section-header">
+            <span></span>
+            <h2 class="section-title">Our Story</h2>
+            <span></span>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-path"></div>
+
+            <!-- October 25 -->
+            <div class="timeline-item">
+                <div class="timeline-date">Oct 25, 2025</div>
+                <div class="timeline-content">
+                    <h3>Where it all began...</h3>
+                    <p class="timeline-edit-hint">Our First Day /p>
+                    <p>Oct 25, 2025 was our fourth date, and I confessed my feelings in person (not over text this time) 😅 </p>
+                    <div class="timeline-photo">
+                    </div>
+                </div>
+            </div>
+
+            <!-- November -->
+            <div class="timeline-item">
+                <div class="timeline-date">November 2025</div>
+                <div class="timeline-content">
+                    <h3>A sad moment</h3>
+                    <p class="timeline-edit-hint">✎ Edit this to add your story</p>
+                    <p>It’s our first month together, and you went overseas right after my confession. We were apart for a while, but that’s when I realized that love really does grow when we’re apart... I tried to text you alot cause i am scared you would forget about me after you come back.</p>
+                    <div class="timeline-photo">
+                        <img src="photonov.jpg" alt="November memory">
+                    </div>
+                </div>
+            </div>
+
+            <!-- December -->
+            <div class="timeline-item">
+                <div class="timeline-date">December 2025</div>
+                <div class="timeline-content">
+                    <h3>Holiday magic</h3>
+                    <p class="timeline-edit-hint">Christmas Month</p>
+                    <p>This month means a lot to me because, besides Christmas, we went to each other’s houses and met our families. I was nervous that your mum wouldn’t like me, but I guess it turned out fine hehe. It was also our first holiday celebration together, and I hope we’ll have many more for the rest of our lives.</p>
+                    <div class="timeline-photo">
+                        <img src="photodec.jpg" alt="December memory">
+                    </div>
+                </div>
+            </div>
+
+            <!-- January -->
+            <div class="timeline-item">
+                <div class="timeline-date">January 2026</div>
+                <div class="timeline-content">
+                    <h3>New Year, same love</h3>
+                    <p class="timeline-edit-hint">✎ Our 3rd month...</p>
+                    <p>After these three months together, I feel like we’ve grown closer and understand each other more deeply. I’m truly grateful that I met you, and I’m so thankful to have you in my life and in my future <33</p>
+                    <div class="timeline-photo">
+                        <img src="photojan.jpg" alt="January memory">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Future -->
+            <div class="timeline-item">
+                <div class="timeline-date">Future...</div>
+                <div></div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ===== REASONS I LOVE YOU ===== -->
+    <section class="reasons-section">
+        <div class="reasons-container">
+            <div class="reasons-sticky">
+                <h2>Reasons I'm Completely, Hopelessly Into You</h2>
+                <p>...and this list keeps growing ♡</p>
+            </div>
+            <div class="reasons-list">
+                <div class="reason-item">
+                    <span class="reason-number">01</span>
+                    <p class="reason-text"><strong>The way you are so cute and lovely that i cant stop thinking about you 💭</strong> </p>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">02</span>
+                    <p class="reason-text"><strong>How you always support me and encourage me to be my best self ⭐  </strong> </p>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">03</span>
+                    <p class="reason-text"><strong> When you always buy gifts for me and i really appreciate it 🎁  </strong> </p>
+                </div>
+                <div class="reason-item">
+                    <p class="reason-text" style="text-align: center; font-style: italic; opacity: 0.8;">and more...</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===== VALENTINE'S ASK ===== -->
+    <section class="valentine-section">
+        <div class="valentine-content">
+            <h2 class="valentine-question">
+                Will you be my Valentine?
+                <span>please say yes... I already planned everything</span>
+            </h2>
+
+            <div class="valentine-buttons">
+                <button class="valentine-button" onclick="showDetails()">
+                    Yes, obviously! ♡
+                </button>
+                <button class="no-button" onclick="showNoTooltip()">
+                    No way i hate you 😡
+                    <span class="no-tooltip" id="noTooltip">Nah you can't run away from me hehe 💕</span>
+                </button>
+            </div>
+
+            <div class="valentine-reveal-wrapper">
+                <!-- Left Bunny -->
+                <div class="bunny-side left" id="bunnyLeft">
+                    <img src="bunnies.gif" alt="Cute bunny">
+                </div>
+
+                <div class="valentine-details" id="valentineDetails">
+                    <div class="detail-card">
+                        <h3>📍 Where to Meet</h3>
+                        <p>I'll come to your house at 12:45 💕</p>
+                    </div>
+                    <div class="detail-card">
+                        <h3>🍽️ The Plan</h3>
+                        <p><strong>Lunch @ 1:30 PM</strong><br>
+                        DOMO Modern Japanese Restaurant<br>
+                        252 North Bridge Road, #03-00 Fairmont Singapore</p>
+                        <p style="margin-top: 1rem;"><strong>Dinner @ 7:30 PM</strong><br>
+                        The Masses<br>
+                        Stamford Road #01-84, Singapore 178905</p>
+                    </div>
+                    <div class="detail-card">
+                        <h3>👗 Dress Code</h3>
+                        <p>Something cute as always! (You always look amazing anyway hehe)</p>
+                    </div>
+                    <div class="detail-card">
+                        <h3>💌 P.S.</h3>
+                        <p>I love you more than you know. Can't wait to spend this day with you.</p>
+                    </div>
+                </div>
+
+                <!-- Right Bunny -->
+                <div class="bunny-side right" id="bunnyRight">
+                    <img src="bunnies2.gif" alt="Cute bunny">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <script>
+        // Show "No way" tooltip
+        function showNoTooltip() {
+            const tooltip = document.getElementById('noTooltip');
+            tooltip.classList.add('show');
+            setTimeout(() => tooltip.classList.remove('show'), 2000);
+        }
+
+        // Show Valentine's details
+        function showDetails() {
+            const details = document.getElementById('valentineDetails');
+            const bunnyLeft = document.getElementById('bunnyLeft');
+            const bunnyRight = document.getElementById('bunnyRight');
+            
+            details.classList.add('show');
+            bunnyLeft.classList.add('show');
+            setTimeout(() => bunnyRight.classList.add('show'), 200);
+            
+            // Create celebration hearts
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => createFloatingHeart({ clientX: Math.random() * window.innerWidth, clientY: window.innerHeight }), i * 100);
+            }
+        }
+
+        // Create floating hearts on click
+        function createFloatingHeart(e) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = ['♡', '♥', '❤', '💕', '💗'][Math.floor(Math.random() * 5)];
+            heart.style.left = (e.clientX || Math.random() * window.innerWidth) + 'px';
+            heart.style.top = (e.clientY || window.innerHeight) + 'px';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 4000);
+        }
+
+        // Add hearts on click anywhere
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('.love-note')) {
+                createFloatingHeart(e);
+            }
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const introLeft = document.querySelector('.intro-left');
+            if (introLeft) {
+                introLeft.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Observe timeline items
+        document.querySelectorAll('.timeline-item, .reason-item, .gallery-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Easter egg: Konami code reveals a secret message
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                alert('🎮 Achievement Unlocked: You found the secret! I love you even more for being curious enough to try this. 💕');
+                konamiCode = [];
+            }
+        });
+    </script>
+</body>
+</html>
